@@ -358,24 +358,127 @@ tbody th {
   padding: 16px;
 }
 
+.footer p {
+  margin: 4px 0;
+}
+
+.disclaimer {
+  max-width: 640px;
+  margin: 0 auto 8px !important;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 640px) {
-  .player-inputs {
-    grid-template-columns: repeat(2, 1fr);
+  .header {
+    padding: 12px 16px;
   }
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 2px;
   }
+  .logo {
+    font-size: 18px;
+  }
+  .subtitle {
+    font-size: 11px;
+  }
+
   .tab {
     flex: 1;
-    padding: 12px 8px;
+    padding: 12px 4px;
+    font-size: 13px;
   }
+
   .container {
-    padding: 16px 8px 64px;
+    padding: 12px 8px 48px;
   }
   .card {
-    padding: 16px 12px;
+    padding: 14px 12px;
+    margin-bottom: 12px;
+  }
+
+  .player-inputs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* iOS の auto-zoom 抑止 (16px 以上必須) */
+  .field input,
+  .field select,
+  .cell-input,
+  .cell-select {
+    font-size: 16px;
+  }
+
+  /* 横スクロール時のセル詰まりを緩和 */
+  table {
+    min-width: 0;
+    font-size: 14px;
+  }
+  .hanchan-table {
+    min-width: 520px;
+  }
+  .result-table {
+    min-width: 320px;
+  }
+
+  thead th {
+    padding: 6px 4px;
+    font-size: 12px;
+    /* プレイヤー名が長いときに折り返し可能 */
+    white-space: normal;
+    word-break: break-word;
+  }
+  tbody td,
+  tbody th {
+    padding: 2px;
+  }
+
+  .cell-input {
+    min-width: 56px;
+    padding: 8px 2px;
+  }
+  .cell-select {
+    padding: 8px 14px 8px 2px;
+  }
+
+  .row-num {
+    width: 28px;
+    font-size: 12px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+  .btn {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 8px 4px 48px;
+  }
+  .card {
+    padding: 12px 10px;
+    border-radius: 6px;
+  }
+  .hanchan-table {
+    min-width: 480px;
   }
 }
