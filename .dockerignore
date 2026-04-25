@@ -1,0 +1,7 @@
+.git
+.gitignore
+.dockerignore
+.gcloudignore
+Dockerfile
+Makefile
+README.md

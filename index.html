@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>麻雀点数計算</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="logo">🀄 麻雀点数計算</h1>
+      <span class="subtitle">mahjong.abetetsu.net</span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab is-active" data-tab="input" role="tab">入力</button>
+    <button class="tab" data-tab="result" role="tab">結果</button>
+    <button class="tab" data-tab="settings" role="tab">設定</button>
+  </nav>
+
+  <main class="container">
+    <!-- ========== 入力タブ ========== -->
+    <section id="input" class="tab-content is-active" role="tabpanel">
+      <div class="card">
+        <h2 class="card-title">プレイヤー</h2>
+        <div class="player-inputs">
+          <label class="field">
+            <span class="field-label">P1</span>
+            <input id="player-0" type="text" placeholder="名前" />
+          </label>
+          <label class="field">
+            <span class="field-label">P2</span>
+            <input id="player-1" type="text" placeholder="名前" />
+          </label>
+          <label class="field">
+            <span class="field-label">P3</span>
+            <input id="player-2" type="text" placeholder="名前" />
+          </label>
+          <label class="field">
+            <span class="field-label">P4</span>
+            <input id="player-3" type="text" placeholder="名前" />
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">半荘記録</h2>
+          <span class="hint">合計 100,000 点になるよう入力</span>
+        </div>
+        <div class="table-scroll">
+          <table class="hanchan-table">
+            <thead>
+              <tr>
+                <th rowspan="2">#</th>
+                <th colspan="2" class="player-head" data-head="0">P1</th>
+                <th colspan="2" class="player-head" data-head="1">P2</th>
+                <th colspan="2" class="player-head" data-head="2">P3</th>
+                <th colspan="2" class="player-head" data-head="3">P4</th>
+              </tr>
+              <tr>
+                <th>風</th><th>点数</th>
+                <th>風</th><th>点数</th>
+                <th>風</th><th>点数</th>
+                <th>風</th><th>点数</th>
+              </tr>
+            </thead>
+            <tbody id="hanchan-tbody">
+              <!-- JSで30行生成 -->
+            </tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btn-calc">計算</button>
+          <button class="btn btn-secondary" id="btn-reset">リセット</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 結果タブ ========== -->
+    <section id="result" class="tab-content" role="tabpanel">
+      <div class="card">
+        <h2 class="card-title">精算点</h2>
+        <div class="table-scroll">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="result-head" data-head="0">P1</th>
+                <th class="result-head" data-head="1">P2</th>
+                <th class="result-head" data-head="2">P3</th>
+                <th class="result-head" data-head="3">P4</th>
+              </tr>
+            </thead>
+            <tbody id="settle-tbody">
+              <tr><td colspan="5" class="placeholder">計算結果がここに表示されます</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">場代込み収支 (円)</h2>
+        <div class="table-scroll">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th class="result-head" data-head="0">P1</th>
+                <th class="result-head" data-head="1">P2</th>
+                <th class="result-head" data-head="2">P3</th>
+                <th class="result-head" data-head="3">P4</th>
+              </tr>
+            </thead>
+            <tbody id="cost-tbody">
+              <tr><td colspan="4" class="placeholder">―</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">順位集計</h2>
+        <div class="table-scroll">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>1位</th><th>2位</th><th>3位</th><th>4位</th>
+                <th>平均順位</th>
+              </tr>
+            </thead>
+            <tbody id="rank-tbody">
+              <tr><th>P1</th><td>―</td><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+              <tr><th>P2</th><td>―</td><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+              <tr><th>P3</th><td>―</td><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+              <tr><th>P4</th><td>―</td><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">得点統計</h2>
+        <div class="table-scroll">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="result-head" data-head="0">P1</th>
+                <th class="result-head" data-head="1">P2</th>
+                <th class="result-head" data-head="2">P3</th>
+                <th class="result-head" data-head="3">P4</th>
+              </tr>
+            </thead>
+            <tbody id="stats-tbody">
+              <tr><th>平均得点</th><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+              <tr><th>最高得点</th><td>―</td><td>―</td><td>―</td><td>―</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 設定タブ ========== -->
+    <section id="settings" class="tab-content" role="tabpanel">
+      <div class="card">
+        <h2 class="card-title">ルール</h2>
+        <div class="settings-grid">
+          <label class="field">
+            <span class="field-label">返し</span>
+            <input id="kaeshi" type="number" value="25000" />
+          </label>
+          <label class="field">
+            <span class="field-label">1位点</span>
+            <input id="rank-1" type="number" value="30" />
+          </label>
+          <label class="field">
+            <span class="field-label">2位点</span>
+            <input id="rank-2" type="number" value="10" />
+          </label>
+          <label class="field">
+            <span class="field-label">3位点</span>
+            <input id="rank-3" type="number" value="-10" />
+          </label>
+          <label class="field">
+            <span class="field-label">4位点</span>
+            <input id="rank-4" type="number" value="-30" />
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">レート / 場代</h2>
+        <div class="settings-grid">
+          <label class="field">
+            <span class="field-label">レート (1000点 = 円)</span>
+            <input id="rate" type="number" value="50" />
+          </label>
+          <label class="field">
+            <span class="field-label">場代総額</span>
+            <input id="rent-cost" type="number" value="3000" />
+          </label>
+          <label class="field">
+            <span class="field-label">場代債務者</span>
+            <select id="rent-payer">
+              <option value="">選択してください</option>
+              <option value="0">P1</option>
+              <option value="1">P2</option>
+              <option value="2">P3</option>
+              <option value="3">P4</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">チップ</h2>
+        <div class="settings-grid">
+          <label class="field field-inline">
+            <input type="checkbox" id="chip-enabled" />
+            <span class="field-label">チップ有</span>
+          </label>
+          <label class="field">
+            <span class="field-label">チップレート (1枚 = 円)</span>
+            <input id="chip-rate" type="number" value="100" />
+          </label>
+        </div>
+        <div class="table-scroll">
+          <table class="result-table">
+            <thead>
+              <tr>
+                <th class="result-head" data-head="0">P1</th>
+                <th class="result-head" data-head="1">P2</th>
+                <th class="result-head" data-head="2">P3</th>
+                <th class="result-head" data-head="3">P4</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="number" class="cell-input chip-input" data-chip="0" placeholder="0" /></td>
+                <td><input type="number" class="cell-input chip-input" data-chip="1" placeholder="0" /></td>
+                <td><input type="number" class="cell-input chip-input" data-chip="2" placeholder="0" /></td>
+                <td><input type="number" class="cell-input chip-input" data-chip="3" placeholder="0" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 abetetsu</p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
