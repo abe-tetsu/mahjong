@@ -172,6 +172,7 @@ body {
   color: var(--color-text);
   transition: border-color 0.15s, box-shadow 0.15s;
   width: 100%;
+  max-width: 100%;
   min-width: 0;
 }
 
