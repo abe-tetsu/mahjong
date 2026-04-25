@@ -4,7 +4,11 @@ SERVICE    ?= mahjong
 PORT       ?= 8080
 GCLOUD     ?= /Users/abetetsuya/google-cloud-sdk/bin/gcloud
 
-.PHONY: local docker_local deploy logs
+.PHONY: local docker_local deploy logs test
+
+# ユニットテスト (Node 標準テストランナー)
+test:
+	node --test test/*.test.js
 
 # 静的ファイルをローカルで配信 (http://localhost:$(PORT))
 local:
